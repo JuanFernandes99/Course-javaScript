@@ -52,110 +52,465 @@ const restaurant = {
   },
 };
 
+//////////////////////////////////////////////
+// Working with Strings -Part 3
+
+//Split and Join
+
+// O .split converte em array o conteudo até chegar ao parametro e ignora esse parametro tambem na string
+// O método split() divide uma String em uma lista ordenada de substrings, coloca essas substrings em um array e retorna o array. A divisão é feita procurando um padrão, onde o padrão é fornecido como o primeiro parâmetro na chamada do método.
+
+// console.log('a+very+nice+string'.split('+'));
+// console.log('Jonas Schmedtmann'.split(' '));
+// // O método join() junta todos os elementos de um array (ou um array-like object) em uma string e retorna esta string.O método join() junta todos os elementos de um array (ou um array-like object) em uma string e retorna esta string.
+// const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+
+// // The arr.join() method is used to join the elements of an array into a string. The elements of the string will be separated by a specified separator and its default value is a comma(, ).
+// const newName = ['Mr.', firstName, lastName.toUpperCase()].join('');
+// console.log(newName);
+
+// const capitalizeName = function (name) {
+//   //o split para converter em array o conteudo até chegar ao espaço
+//   const names = name.split(' ');
+//   const namesUpper = [];
+
+//   for (const n of names) {
+//     //logo maiscula a primeira letra e a string toda desde o 1
+//     // o push para adicionar ao array
+
+//     // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+//     //ou
+//     namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+//   }
+//   // e o join para unir os elementos do array em uma string, separados por neste caso um space
+//   console.log(namesUpper.join(' '));
+// };
+
+// capitalizeName('jessica ann smith davis');
+// capitalizeName('juan Fernandes');
+
+// //Padding
+// //O método padStart() preenche a string original com um determinado caractere, ou conjunto de caracteres, (várias vezes, se necessário) até que a string resultante atinja o comprimento fornecido. O preenchimento é aplicado antes do primeiro caractere da string original. A string original não é modificada.
+
+// const message = 'Go to gate 23!';
+// // o comprimento deve ser 25, ele adiciona sinais '+' ate ter esse comprimento
+
+// console.log(message.padStart(25, '+')); //+++++++++++Go to gate 23!
+
+// //O método padEnd() preenche a string original com um determinado caractere, ou conjunto de caraceres, (repetidamente, se necessário) para que a string resultante alcance um determinado comprimento. O preenchimento é aplicado a partir do final (direita) da string original. A string original não é modificada.
+// console.log(message.padStart(25, '+').padEnd(35, '+')); //+++++++++++Go to gate 23!++++++++++
+
+// const maskCreditCard = function (number) {
+//   const str = number + ''; // converte para stirng lembrar number to string
+//   const last = str.slice(-4); //4789
+//   return last.padStart(str.length, '*'); //*************4784 */
+// };
+
+// console.log(maskCreditCard(433789445601563));
+// console.log(maskCreditCard('43378944560156333334789'));
+
+// //Repeat
+
+// const message2 = 'Bad weather ... All Departures delayed... ';
+// //repeat 5 veces
+// console.log(message2.repeat(5));
+
+// const planesInLine = function (n) {
+//   console.log(`There are ${n} planes in line ${'✈'.repeat(n)}`);
+// };
+// planesInLine(5);
+// planesInLine(3);
+// planesInLine(12);
+
+// Coding Challenge #4
+// Write a program that receives a list of variable names written in underscore_case
+// and convert them to camelCase.
+// The input will come from a textarea inserted into the DOM (see code below to
+// insert the elements), and conversion will happen when the button is pressed.
+// Test data (pasted to textarea, including spaces):
+// underscore_case
+// first_name
+// Some_Variable
+//  calculate_AGE
+// delayed_departure
+// Should produce this output (5 separate console.log outputs):
+// underscoreCase ✅
+// firstName ✅✅
+// someVariable ✅✅✅
+// calculateAge ✅✅✅✅
+// delayedDeparture ✅✅✅✅✅
+// Hints:
+// § Remember which character defines a new line in the textarea �
+// § The solution only needs to work for a variable made out of 2 words, like a_b
+// § Start without worrying about the ✅. Tackle that only after you have the variable
+// name conversion working �
+// § This challenge is difficult on purpose, so start watching the solution in case
+// you're stuck. Then pause and continue!
+// Afterwards, test with your own test data!
+// GOOD LUCK �
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+const text = document.querySelector('textarea');
+
+document.querySelector('button').addEventListener('click', function () {
+  const string = text.value.toLowerCase().split('\n');
+  console.log(string);
+  // 0: "underscore_case"
+  // 1: "first_name"
+  // 2: "some_variable"
+  // 3: " calculate_age"
+  // 4: "delayed_departure"
+
+  //percorremos o array
+  for (const [index, verString] of string.entries()) {
+    const [p, s] = verString.split('_');
+    // console.log(verString.split('_'));
+    // 0: "underscore"
+    // 1: "case"
+    // console.log(p);
+    // console.log(s);
+    const saida = `${p}${s[0].toUpperCase() + s.slice(1)}`;
+    console.log(saida);
+    console.log(`${saida.padEnd(20)}${'✅'.repeat(index + 1)}`);
+  }
+  // for (const [index, player] of game.scored.entries()) {
+  //   console.log(` Goal ${index + 1}: ${player}`); //todos os elementos do array
+  //
+});
+
+// const capitalizeName = function (name) {
+//   //o split para converter em array o conteudo até chegar ao espaço
+//   const names = name.split(' ');
+//   const namesUpper = [];
+
+//   for (const n of names) {
+//     //logo maiscula a primeira letra e a string toda desde o 1
+//     // o push para adicionar ao array
+
+//     // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+//     //ou
+//     namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+//   }
+//   // e o join para unir os elementos do array em uma string, separados por neste caso um space
+//   console.log(namesUpper.join(' '));
+// };
+//console.log(announcement.replaceAll('door', 'gate'));
+//////////////////////////////////////////////
+// Working with Strings -Part 2
+
+// const airline = 'TAP Air Portugal';
+// //Transforma a string em uppercase ou lowercase
+// console.log(airline.toLowerCase);
+// console.log(airline.toUpperCase);
+
+// //Fix capitalization in name
+
+// const passenger = 'jOnAs'; //Jonas
+// // primeiro passamos tudo a minuscula
+// const passengerLower = passenger.toLowerCase();
+// //logo, criamos outra string e colocamos a primeira letra em maiscula
+// // assim a primeira letra da string colocamos em maiuscula
+// const passengerCorrect =
+//   passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// console.log(passengerCorrect);
+
+// //Comparing emails
+
+// const email = 'hello@jonas.io';
+// const loginEmail = ' Hello@Jonas.Io \n';
+
+// const lowerEmail = loginEmail.toLowerCase();
+// // o trim tira os espaços
+// const trimmedEmail = lowerEmail.trim();
+// console.log(trimmedEmail);
+
+// //mais facil tudo em uma linha
+// const normalizedEmail = loginEmail.toLowerCase().trim();
+// console.log(normalizedEmail);
+// console.log(email === normalizedEmail); // true
+
+// //replacing
+// const priceGB = '288,97£';
+// const priceUS = priceGB.replace('£', '$').replace(',', '.');
+// console.log(priceUS);
+
+// const announcement =
+//   'All passengers come to boarding door 23. Boarding door 23!';
+// //assim só vai fazer replace no primeiro door
+// console.log(announcement.replace('door', 'gate'));
+// // Por isso utilizamos o replaceAll
+// console.log(announcement.replaceAll('door', 'gate'));
+
+// //ou mas isto é a uma soluçao antiga
+// console.log(announcement.replace(/door/g, 'gate'));
+
+// // Booleans
+
+// // o Includes devolve true se include isso
+// const plane = 'Airbus A320neo';
+// console.log(plane.includes('A320')); //true
+// console.log(plane.includes('Boeing')); //false
+// //começa com Air também pode ser Ai etc
+// console.log(plane.startsWith('Air')); //true
+
+// if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+//   console.log('Part of the NEW  Airbus family');
+// }
+
+// //Practice exercise
+
+// const checkBaggage = function (items) {
+//   //Sempre convertir o input do utilizador em lowercase
+//   const baggage = items.toLowerCase();
+//   if (baggage.includes('knife') || baggage.includes('gun')) {
+//     console.log('You are NOT allowed on board');
+//   } else {
+//     console.log('Welcome aboard!');
+//   }
+// };
+// checkBaggage('I have a laptop,some Food and a pocket Knife');
+// checkBaggage('Socks and camera');
+// checkBaggage('Got some snacks and a gun for protection');
+
+//////////////////////////////////////////////
+// Working with Strings -Part 1
+
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
+
+// console.log(plane[0]);
+// console.log(plane[1]);
+// console.log(plane[2]);
+// console.log('B737'[0]);
+// console.log(airline.length);
+// console.log('B737'.length);
+
+// //Position
+// //Primeira concorrencia
+// console.log(airline.indexOf('r')); // 6 pq é baseado em 0
+// //ultima concorrencia
+// console.log(airline.lastIndexOf('r')); // 6 pq é baseado em 0
+
+// console.log(airline.indexOf('portugal')); // -1 pq é sensitive case ,
+// console.log(airline.indexOf('Portugal')); //10
+
+// //O método slice começa a extrair strings desde uma posiçao indicada
+// console.log(airline.slice(4)); // Air Portugal
+
+// //Position 4 até a 7
+// console.log(airline.slice(4, 7)); //Air
+
+// // do 0 até o space
+// // por isso vamos fazer o indexof do space e se converte na posiçao final
+// console.log(airline.slice(0, airline.indexOf(' '))); //TAP
+// // se nao especificarmos a posicao inicial, vai até a posicao final
+// console.log(airline.slice(airline.lastIndexOf(''))); // Portugal
+// // + 1 para nao aparecer o space
+// console.log(airline.slice(airline.lastIndexOf('')) + 1); //Portugal
+
+// //assim começa a extrair desde o final
+// console.log(airline.slice(-2)); //al
+
+// // a segunda e a ultima
+// console.log(airline.slice(1, -1)); //AP Air Portuga
+
+// const checkMiddleSeat = function (seat) {
+//   // B and E are middle seats
+
+//   // Para saber qual é a ultima letra
+//   const s = seat.slice(-1);
+//   if (s === 'B' || s === 'E') {
+//     console.log('You got the middle seat ');
+//   } else {
+//     console.log('You got Lucky');
+//   }
+// };
+
+// checkMiddleSeat('11B');
+// checkMiddleSeat('23C');
+// checkMiddleSeat('3E');
+
 ///////////////////////////////////////
 // Looping Objects: Object Keys, Values, and Entries
 
 //property Names
-const properties = Object.keys(openingHours);
-console.log(properties); // resultado ("thu" , "fri" , "sat")
-// console.log(`We are open on ${properties.length} days`); // resultado array com ("thu" , "fri" , "sat")
+// const properties = Object.keys(openingHours);
+// console.log(properties); // resultado ("thu" , "fri" , "sat")
+// // console.log(`We are open on ${properties.length} days`); // resultado array com ("thu" , "fri" , "sat")
 
-let openStr = `We are open on ${properties.length} days: `; // resultado array com ("thu" , "fri" , "sat")
+// let openStr = `We are open on ${properties.length} days: `; // resultado array com ("thu" , "fri" , "sat")
 
-for (const day of Object.keys(openingHours)) {
-  console.log(day); // thu,fri,sat que sao os key names
-}
-
-console.log(openStr); // we are open in 3 days
-
-// Property Values
-
-const values = Object.values(openingHours);
-console.log(values); //imprime o objeto tudo
-
-//Entire object
-const entries = Object.entries(openingHours)
-console.log(entries); // transformou o object em array
-
-// for(const x of entries) {
-//    console.log(x) // print each key and each value
+// for (const day of Object.keys(openingHours)) {
+//   console.log(day); // thu,fri,sat que sao os key names
 // }
 
-// [key, value]
-for(const [day,{open, close}] of entries) {
+// console.log(openStr); // we are open in 3 days
 
-  console.log (`On ${day} we open at ${open} and close at ${close}`) //On thu we open at 12 and close at 22
-}
+// // Property Values
 
+// const values = Object.values(openingHours);
+// console.log(values); //imprime o objeto tudo
 
-///Coding Challenge #2
+// //Entire object
+// const entries = Object.entries(openingHours);
+// console.log(entries); // transformou o object em array
 
-// Let's continue with our football betting app! Keep using the 'game' variable from
-// before.
-// Your tasks:
-// 1. Loop over the game.scored array and print each player name to the console,
-// along with the goal number (Example: "Goal 1: Lewandowski")
-// 2. Use a loop to calculate the average odd and log it to the console (We already
-// studied how to calculate averages, you can go check if you don't remember)
-// 3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
-// Odd of victory Bayern Munich: 1.33
-// Odd of draw: 3.25
-// Odd of victory Borrussia Dortmund: 6.5
-// Get the team names directly from the game object, don't hardcode them
-// (except for "draw"). Hint: Note how the odds and the game objects have the
-// same property names 😉
-// 4. Bonus: Create an object called 'scorers' which contains the names of the
-// players who scored as properties, and the number of goals as the value. In this
-// game, it will look like this:
-// {
-// Gnarby: 1,
-// Hummels: 1,
-// Lewandowski: 2
+// // for(const x of entries) {
+// //    console.log(x) // print each key and each value
+// // }
+
+// // [key, value]
+// for (const [day, { open, close }] of entries) {
+//   console.log(`On ${day} we open at ${open} and close at ${close}`); //On thu we open at 12 and close at 22
 // }
-// GOOD LUCK 😀
 
-const game = {
-    team1: 'Bayern Munich',
-    team2: 'Borrussia Dortmund',
-    players: [
-      [
-        'Neuer',
-        'Pavard',
-        'Martinez',
-        'Alaba',
-        'Davies',
-        'Kimmich',
-        'Goretzka',
-        'Coman',
-        'Muller',
-        'Gnarby',
-        'Lewandowski',
-      ],
-      [
-        'Burki',
-        'Schulz',
-        'Hummels',
-        'Akanji',
-        'Hakimi',
-        'Weigl',
-        'Witsel',
-        'Hazard',
-        'Brandt',
-        'Sancho',
-        'Gotze',
-      ],
-    ],
-    score: '4:0',
-    scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
-    date: 'Nov 9th, 2037',
-    odds: {
-      team1: 1.33,
-      x: 3.25,
-      team2: 6.5,
-    },
-  };
+// ///Coding Challenge #2
 
+// // Let's continue with our football betting app! Keep using the 'game' variable from
+// // before.
+// // Your tasks:
+// // 1. Loop over the game.scored array and print each player name to the console,
+// // along with the goal number (Example: "Goal 1: Lewandowski")
+// // 2. Use a loop to calculate the average odd and log it to the console (We already
+// // studied how to calculate averages, you can go check if you don't remember)
+// // 3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+// // Odd of victory Bayern Munich: 1.33
+// // Odd of draw: 3.25
+// // Odd of victory Borrussia Dortmund: 6.5
+// // Get the team names directly from the game object, don't hardcode them
+// // (except for "draw"). Hint: Note how the odds and the game objects have the
+// // same property names 😉
+// // 4. Bonus: Create an object called 'scorers' which contains the names of the
+// // players who scored as properties, and the number of goals as the value. In this
+// // game, it will look like this:
+// // {
+// // Gnarby: 1,
+// // Hummels: 1,
+// // Lewandowski: 2
+// // }
+// // GOOD LUCK 😀
 
+// const game = {
+//   team1: 'Bayern Munich',
+//   team2: 'Borrussia Dortmund',
+//   players: [
+//     [
+//       'Neuer',
+//       'Pavard',
+//       'Martinez',
+//       'Alaba',
+//       'Davies',
+//       'Kimmich',
+//       'Goretzka',
+//       'Coman',
+//       'Muller',
+//       'Gnarby',
+//       'Lewandowski',
+//     ],
+//     [
+//       'Burki',
+//       'Schulz',
+//       'Hummels',
+//       'Akanji',
+//       'Hakimi',
+//       'Weigl',
+//       'Witsel',
+//       'Hazard',
+//       'Brandt',
+//       'Sancho',
+//       'Gotze',
+//     ],
+//   ],
+//   score: '4:0',
+//   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+//   date: 'Nov 9th, 2037',
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
+// var obj = {
+//   team1: 1.33,
+//   x: 3.25,
+//   team2: 6.5,
+// };
+// //.entries converte o objeto
+// console.log(Object.entries(obj));
+
+// //1. Loop over the game.scored array and print each player name to the console,
+// // along with the goal number (Example: "Goal 1: Lewandowski")
+// //index + 1 para que nao apareça o goal 0
+
+// for (const player of game.scored) {
+//   console.log(`${player}`); //todos os elementos do array os nomes
+// }
+
+// // escrevemos .entries, pq queremos os index e o valor
+
+// for (const [index, player] of game.scored.entries()) {
+//   console.log(` Goal ${index + 1}: ${player}`); //todos os elementos do array
+// }
+
+// // 2. Use a loop to calculate the average odd and log it to the console (We already
+// // studied how to calculate averages, you can go check if you don't remember)
+// const odds = Object.values(game.odds);
+
+// //.values para ter os valores do objeto
+
+// console.log(odds); //array com todos os valores [1.33, 3.25, 6.5]
+// let average = 0;
+
+// //ou for (const odd of odds)
+// for (const odd of Object.values(game.odds)) {
+//   average += odd;
+// }
+// average /= odds.length;
+// console.log(average);
+
+// // 3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+// // Odd of victory Bayern Munich: 1.33
+// // Odd of draw: 3.25
+// // Odd of victory Borrussia Dortmund: 6.5
+// // Get the team names directly from the game object, don't hardcode them
+// // (except for "draw"). Hint: Note how the odds and the game objects have the
+// // same property names 😉
+
+// //Object.entries(game.odds) pq é um objeto
+
+// console.log(Object.entries(game.odds));
+// //output:
+// //Array com 3 arrays
+// //0:  ['team1', 1.33]
+// //1:  ['x', 3.25]
+// //2: ['team2', 6.5]
+
+// for (const [team, odd] of Object.entries(game.odds)) {
+//   const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+//   console.log(game[team]);
+//   console.log(`Odd of ${teamStr} ${odd}`);
+//   // console.log(team, odd); //team1 1.33 , etc.
+// }
+
+// // 4. Bonus: Create an object called 'scorers' which contains the names of the
+// // players who scored as properties, and the number of goals as the value. In this
+// // game, it will look like this:
+// // {
+// // Gnarby: 1,
+// // Hummels: 1,
+// // Lewandowski: 2
+// // }
+// // GOOD LUCK 😀
+
+// // BONUS
+// // So the solution is to loop over the array, and add the array elements as object properties, and then increase the count as we encounter a new occurence of a certain element
+// const scorers = {};
+// for (const player of game.scored) {
+//   scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+// }
+// console.log(scorers);
 
 // //////////////////////////////////////
 // // Optional Chaining
