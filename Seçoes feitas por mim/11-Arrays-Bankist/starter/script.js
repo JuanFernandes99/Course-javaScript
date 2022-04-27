@@ -90,9 +90,12 @@ displayMovements(account1.movements);
 
 // const user = 'Steven Thomas Williams'; //stw
 
-movements;
 const createUsernames = function (accs) {
+  //accs =  o array com os 4 objetos
+  console.log(accs);
   accs.forEach(function (acc) {
+    //acc cada objeto por isso o foreach
+    console.log(acc);
     acc.username = acc.owner
       // o split converte para array cada elemento até o space
       //logo faz um mapeamento de cada elemtnod o array e devolve um novo array ['s', 't', 'w'] com o primeiro elemento de cada um
@@ -103,10 +106,40 @@ const createUsernames = function (accs) {
       .join('');
   });
 };
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 //Para criar o username a todas las contas
 createUsernames(accounts);
 console.log(accounts);
+
+const deposits = movements.filter(mov => mov > 0);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
+
+const withdrawsFor = [];
+for (const mov of movements) if (movements < 0) withdrawsFor.push(mov);
+
+//para saber o saldo da conta vamos usar o reduce
+
+console.log(movements);
+// accumulator -> SNOWBALL
+const balance = movements.reduce((acc, cur, i, arr) => {
+  console.log(`Iteration ${i}: ${acc}`);
+  return acc + cur;
+  //o 0 é o valor que especificamos como valor inicial
+}, 0);
+console.log(balance);
+
+//Outra forma
+let balanceFor = 0;
+for (const mov of movements) balanceFor += mov;
+console.log(balanceFor);
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -120,7 +153,7 @@ console.log(accounts);
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // ---------------The map Method-------------
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const eurToUsd = 1.1;
 
