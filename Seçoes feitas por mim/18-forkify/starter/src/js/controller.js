@@ -1,3 +1,13 @@
+import * as model from './model.js';
+
+//lembrar que o que envia o parcel é o ficheiro dist por isso temos que ter em conta
+
+import icons from 'url:../img/icons.svg';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
+// for videos , sound files, images que nao seja code de programar, temos que por o url:...
+console.log(icons); // http://localhost:1234/icons.dfd7a6db.svg?1651419754481
 const { async } = require('regenerator-runtime');
 
 const recipeContainer = document.querySelector('.recipe');
@@ -14,46 +24,34 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
+const renderSpinner = function (parentEl) {
+  const markup = `
+  <div class="spinner">
+  <svg>
+    <use href="${icons}#icon-loader"></use>
+  </svg>
+</div>`;
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
+};
+
 const showRecipe = async function () {
   try {
+    // o hash é o #...id
+    const id = window.location.hash.slice(1);
+    //slice pq o id começa em # e assim vem do api
+
+    console.log(id);
+
+    //modern way pq a primeira vez n temos id no url
+    if (!id) return;
     //1) Loading recipe
-    // vamos esperar o resultaod da promesa, e armazenar na variavel res ,
-    // vamos parar a execuçao do código com o await, mas nao hã problema pq
-    // isto é uma async function que funciona em segundo plnao
-    const res = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
-    );
-    console.log(res);
-    // o .json está disponivel em todos os objetos de resposta, e o fetch
-    // retorna um objeto de resposta
-    const data = await res.json();
-    console.log(data);
-    //res.status para o codigo
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    console.log(res, data.message);
+    await model.loadRecipe(id);
+    const { recipe } = model.state;
 
-    // let recipe = data.data.recipe;
-    //ou
-    //como temos recipe dos dois lado fazemos a destruturaçao
-    let { recipe } = data.data;
-    console.log(recipe);
-
-    //feito isto para mudar os nomes que nao gosto
-    recipe = {
-      cookingTime: recipe.cooking_time,
-      id: recipe.id,
-      imageUrl: recipe.image_url,
-      ingredients: recipe.ingredients,
-      publisher: recipe.publisher,
-      servings: recipe.servings,
-      sourceUrl: recipe.source_url,
-      title: recipe.title,
-    };
-
-    console.log(recipe);
+    renderSpinner(recipeContainer);
 
     //2) Rendering recipe
-
     const markup = `
     <figure class="recipe__fig">
           <img src="${recipe.imageUrl}" alt="${
@@ -67,7 +65,7 @@ const showRecipe = async function () {
         <div class="recipe__details">
           <div class="recipe__info">
             <svg class="recipe__info-icon">
-              <use href="src/img/icons.svg#icon-clock"></use>
+              <use href="${icons}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
               recipe.cookingTime
@@ -76,7 +74,7 @@ const showRecipe = async function () {
           </div>
           <div class="recipe__info">
             <svg class="recipe__info-icon">
-              <use href="src/img/icons.svg#icon-users"></use>
+              <use href="${icons}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${
               recipe.servings
@@ -86,12 +84,12 @@ const showRecipe = async function () {
             <div class="recipe__info-buttons">
               <button class="btn--tiny btn--increase-servings">
                 <svg>
-                  <use href="src/img/icons.svg#icon-minus-circle"></use>
+                  <use href="${icons}#icon-minus-circle"></use>
                 </svg>
               </button>
               <button class="btn--tiny btn--increase-servings">
                 <svg>
-                  <use href="src/img/icons.svg#icon-plus-circle"></use>
+                  <use href="${icons}#icon-plus-circle"></use>
                 </svg>
               </button>
             </div>
@@ -99,12 +97,12 @@ const showRecipe = async function () {
 
           <div class="recipe__user-generated">
             <svg>
-              <use href="src/img/icons.svg#icon-user"></use>
+              <use href="${icons}#icon-user"></use>
             </svg>
           </div>
           <button class="btn--round">
             <svg class="">
-              <use href="src/img/icons.svg#icon-bookmark-fill"></use>
+              <use href="${icons}#icon-bookmark-fill"></use>
             </svg>
           </button>
         </div>
@@ -112,18 +110,24 @@ const showRecipe = async function () {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${recipe.ingredients.map(ing => {
-            return `            <li class="recipe__ingredient">
+          ${recipe.ingredients
+            .map(ing => {
+              console.log(ing);
+              return `            <li class="recipe__ingredient">
               <svg class="recipe__icon">
-                <use href="src/img/icons.svg#icon-check"></use>
+                <use href="${icons}#icon-check"></use>
               </svg>
-              <div class="recipe__quantity">1000</div>
+              <div class="recipe__quantity">${ing.quantity}</div>
               <div class="recipe__description">
-                <span class="recipe__unit">g</span>
-                pasta
+                <span class="recipe__unit">${ing.unit}</span>
+                ${ing.description}
               </div>
-            </li>`;
-          })}
+            </li>
+            `;
+            })
+            //para tirar as virgulas, como o que retorna é um array de string usamos o .join para unir todo numa string
+            .join('')}
+            
 
         </div>
 
@@ -143,7 +147,7 @@ const showRecipe = async function () {
           >
             <span>Directions</span>
             <svg class="search__icon">
-              <use href="src/img/icons.svg#icon-arrow-right"></use>
+              <use href="${icons}#icon-arrow-right"></use>
             </svg>
           </a>
         </div>`;
@@ -153,5 +157,11 @@ const showRecipe = async function () {
     alert(err);
   }
 };
+// se copiarmos o link em outra tab no funciona pq nao se efetuou o hashchange, por isso vamos fazer o load
+// window.addEventListener('hashchange', showRecipe);
+// //quando a pagina estiver load , dispara o showrecipe
+// window.addEventListener('load', showRecipe);
 
-showRecipe();
+//soluçao
+
+['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));
