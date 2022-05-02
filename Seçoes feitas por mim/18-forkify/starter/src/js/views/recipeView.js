@@ -25,16 +25,19 @@ class recipeView extends view {
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       //isto é por causa dos clicks do todo o que esta dentro da clase
-      const btn = e.target.closest('.btn--tiny');
+      const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
       console.log(btn);
-      handler();
+      const { updateTo } = btn.dataset;
+      if (+updateTo > 0) handler(+updateTo);
+      console.log(updateTo);
     });
   }
 
   //# private
   _generateMarkup() {
     return `
+    ${console.log(this._data)}
     <figure class="recipe__fig">
           <img src="${this._data.imageUrl}" alt="${
       this._data.title
@@ -62,14 +65,18 @@ class recipeView extends view {
               this._data.servings
             }</span>
             <span class="recipe__info-text">servings</span>
-
+  
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update-to="${
+                this._data.servings - 1
+              }">
                 <svg>
                   <use href="${icons}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update-to="${
+                this._data.servings + 1
+              }">
                 <svg>
                   <use href="${icons}#icon-plus-circle"></use>
                 </svg>

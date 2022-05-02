@@ -55,6 +55,7 @@ export const loadSearchResults = async function (query) {
         title: rec.title,
       };
     });
+    state.search.page = 1;
   } catch (err) {
     console.log(`${err}💣💣`);
     throw err;
@@ -74,5 +75,6 @@ export const updateServings = function (newServings) {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
     // newQt = oldQt * newServings / oldServings // 2 * 8 / 4 = 4
   });
+
   state.recipe.servings = newServings;
 };
