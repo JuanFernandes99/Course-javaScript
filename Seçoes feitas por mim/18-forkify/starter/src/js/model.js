@@ -1,27 +1,21 @@
 import { async } from 'regenerator-runtime';
-
+import { API_URL } from './config';
+import { getJson } from './helper';
+import { RES_PER_PAGE } from './config';
 export const state = {
   recipe: {},
+  search: {
+    query: '',
+    results: [],
+    page: 1,
+    resultsPerPage: RES_PER_PAGE,
+  },
 };
 
 //change the state object "state
 export const loadRecipe = async function (id) {
   try {
-    // vamos esperar o resultaod da promesa, e armazenar na variavel res ,
-    // vamos parar a execuçao do código com o await, mas nao hã problema pq
-    // isto é uma async function que funciona em segundo plnao
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    console.log(res);
-    // o .json está disponivel em todos os objetos de resposta, e o fetch
-    // retorna um objeto de resposta
-    const data = await res.json();
-    console.log(data);
-    //res.status para o codigo
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    console.log(res, data.message);
-
+    const data = await getJson(`${API_URL}${id}`);
     // let recipe = data.data.recipe;
     //ou
     //como temos recipe dos dois lado fazemos a destruturaçao
@@ -42,6 +36,43 @@ export const loadRecipe = async function (id) {
 
     console.log(state.recipe);
   } catch (err) {
-    alert(err);
+    //Temp error handling
+    console.log(`${err}💣💣`);
+    throw err;
   }
+};
+export const loadSearchResults = async function (query) {
+  try {
+    state.search.query = query;
+    const data = await getJson(`${API_URL}?search=${query}`);
+    console.log(data);
+
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        imageUrl: rec.image_url,
+        publisher: rec.publisher,
+        title: rec.title,
+      };
+    });
+  } catch (err) {
+    console.log(`${err}💣💣`);
+    throw err;
+  }
+};
+
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page;
+  //*10 resultados da pagna
+  const start = (page - 1) * state.search.resultsPerPage; //0;
+  const end = page * state.search.resultsPerPage; //9;
+  return state.search.results.slice(start, end);
+};
+
+export const updateServings = function (newServings) {
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    // newQt = oldQt * newServings / oldServings // 2 * 8 / 4 = 4
+  });
+  state.recipe.servings = newServings;
 };
