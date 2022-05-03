@@ -489,60 +489,60 @@ const wait = function (seconds) {
 // };
 
 /////////////////////////////////////////////////////////////
-// const getCountryAndNeighbour = function (country) {
-//   // Country 1
-//   fetch(`https://restcountries.com/v3.1/name/${country}`)
-//     .then(
-//       response => {
-//         console.log(response);
+const getCountryAndNeighbour = function (country) {
+  // Country 1
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(
+      response => {
+        console.log(response);
 
-//         if (!response.ok)
-//           //throw vai interrumpir a funçao até o retorno e vai ir para o catch , e vai propagarse por todo o resto do código como uma promesa falhida até hegar ao catch
-//           throw new Error(`Country not found ${response.status}`);
+        if (!response.ok)
+          //throw vai interrumpir a funçao até o retorno e vai ir para o catch , e vai propagarse por todo o resto do código como uma promesa falhida até hegar ao catch
+          throw new Error(`Country not found ${response.status}`);
 
-//         return response.json();
-//       } //new promise
-//     )
-//     .then(data => {
-//       console.log(data);
-//       renderCountry(data[0]);
-//       // se nao tem borders?
-//       const neighbour = data[0].borders?.[0];
+        return response.json();
+      } //new promise
+    )
+    .then(data => {
+      console.log(data);
+      renderCountry(data[0]);
+      // se nao tem borders?
+      const neighbour = data[0].borders?.[0];
 
-//       if (!neighbour) return;
+      if (!neighbour) return;
 
-//       // Country 2
-//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-//     })
-//     //pq o valor de emcima está a devolver uma promessa
-//     .then(response => response.json())
-//     .then(data => renderCountry(data[0], 'neighbour'))
-//     .catch(err => {
-//       console.log(`${err} 🤢🤢`);
-//       renderError(`Something went wrong 🤢🤢 ${err.message}. Try again! `);
-//     })
-//     //Finally sempre acontece se for cumpida ou nao
-//     .finally(() => {
-//       countriesContainer.style.opacity = 1;
-//     });
-// };
+      // Country 2
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    //pq o valor de emcima está a devolver uma promessa
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {
+      console.log(`${err} 🤢🤢`);
+      renderError(`Something went wrong 🤢🤢 ${err.message}. Try again! `);
+    })
+    //Finally sempre acontece se for cumpida ou nao
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
 
-// btn.addEventListener('click', function () {
-//   getCountryAndNeighbour('portugal');
-// });
+btn.addEventListener('click', function () {
+  getCountryAndNeighbour('portugal');
+});
 
-// const getCountryData = function (country) {
-//   fetch(`https://restcountries.com/v3.1/name/${country}`)
-//     //devolve uma promessa e por isso  chamamos ao then()
-//     .then(function (response) {
-//       console.log(response);
-//       return response.json(); //new promise
-//     })
-//     .then(function (data) {
-//       console.log(data);
-//       renderCountry(data[0]);
-//     });
-// };
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    //devolve uma promessa e por isso  chamamos ao then()
+    .then(function (response) {
+      console.log(response);
+      return response.json(); //new promise
+    })
+    .then(function (data) {
+      console.log(data);
+      renderCountry(data[0]);
+    });
+};
 
 ///////////////////////////////////////
 
